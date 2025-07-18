@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ChainMail – Letters to Future Strangers</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #444;
+    }
+    textarea {
+      width: 100%;
+      height: 200px;
+      padding: 1rem;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid #ccc;
+      resize: vertical;
+    }
+    select, button {
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid #ccc;
+      margin-right: 1rem;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .response-box {
+      margin-top: 2rem;
+      background: #f0f0f0;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>ChainMail</h1>
+    <p><strong>Write a letter to a future stranger.</strong> It will be unlocked by someone else in 1 month or 1 year. You’ll receive one in return when it’s your turn.</p>
+
+    <textarea id="letter" placeholder="Write your anonymous letter here..."></textarea>
+    
+    <label for="delay">Time Lock:</label>
+    <select id="delay">
+      <option value="30">1 Month</option>
+      <option value="365">1 Year</option>
+    </select>
+
+    <button onclick="sendLetter()">Send Letter</button>
+
+    <div class="response-box" id="incomingLetter" style="display:none;">
+      <h3>You’ve received a letter from the past:</h3>
+      <p id="receivedContent"></p>
+      <textarea id="reply" placeholder="Write your reflection..."></textarea>
+      <button onclick="submitReply()">Submit Reflection</button>
+    </div>
+  </div>
+
+  <script>
+    // This is a stub. You’ll wire this up to your IC canister calls later.
+    function sendLetter() {
+      const content = document.getElementById('letter').value;
+      const delay = document.getElementById('delay').value;
+      if (!content.trim()) {
+        alert("Please write something.");
+        return;
+      }
+      console.log("Sending letter:", content, "with delay:", delay, "days");
+      alert("Your letter has been time-locked! You'll receive one when it's unlocked.");
+      document.getElementById('letter').value = '';
+    }
+
+    function receiveLetter(fakeText = "Dear stranger, I hope you’re doing well. I wrote this to remind you the world needs more quiet kindness...") {
+      document.getElementById('incomingLetter').style.display = 'block';
+      document.getElementById('receivedContent').textContent = fakeText;
+    }
+
+    function submitReply() {
+      const reply = document.getElementById('reply').value;
+      if (!reply.trim()) {
+        alert("Please write a reflection.");
+        return;
+      }
+      console.log("Reflection submitted:", reply);
+      alert("Thank you for reflecting. You may now write again.");
+      document.getElementById('reply').value = '';
+      document.getElementById('incomingLetter').style.display = 'none';
+    }
+
+    // Simulate receiving a letter on load (for now)
+    window.onload = () => {
+      // Uncomment to show sample incoming message on load
+      // receiveLetter();
+    };
+  </script>
+</body>
+</html>
