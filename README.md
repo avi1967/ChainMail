@@ -1,61 +1,78 @@
-# `chainmail`
+# ✉️ ChainMail
 
-Welcome to your new `chainmail` project and to the Internet Computer development community. By default, creating a new project adds this README and some template files to your project directory. You can edit these template files to customize your project and to include your own code to speed up the development cycle.
+A beautiful, intentional Web3 application to **write anonymous, time-locked letters to future strangers** — built with 💖 using **Rust smart contracts**, **IPFS**, and a calming, pastel-themed UI.  
+Whether you're writing to heal, share, or just be heard — ChainMail lets you connect across time.  
+You send a letter. In 1 month or 1 year, it unlocks for someone random.  
+When yours is unlocked, you receive one in return.  
+You can’t send again until you reflect or reply. Slow. Serene. Human.
 
-To get started, you might want to explore the project directory structure and the default configuration file. Working with this project in your development environment will not affect any production deployment or identity tokens.
+## 🌸 Features
 
-To learn more before you start working with `chainmail`, see the following documentation available online:
+### 💌 User Features
 
-- [Quick Start](https://internetcomputer.org/docs/current/developer-docs/setup/deploy-locally)
-- [SDK Developer Tools](https://internetcomputer.org/docs/current/developer-docs/setup/install)
-- [Rust Canister Development Guide](https://internetcomputer.org/docs/current/developer-docs/backend/rust/)
-- [ic-cdk](https://docs.rs/ic-cdk)
-- [ic-cdk-macros](https://docs.rs/ic-cdk-macros)
-- [Candid Introduction](https://internetcomputer.org/docs/current/developer-docs/backend/candid/)
+* Compose an **anonymous letter** to a future stranger
+* Choose a **time-lock duration**: 1 month or 1 year
+* Receive a **random letter** when yours unlocks
+* Must **reflect or reply** before sending again
+* View your personal **inbox timeline** of sent, received, and reflected letters
+* All actions are **fully on-chain** with no central authority
 
-If you want to start working on your project right away, you might want to try the following commands:
+### 🔐 Blockchain Features
 
-```bash
-cd chainmail/
-dfx help
-dfx canister --help
-```
+* **Rust smart contracts** manage time-locking and storage references
+* On-chain **random matchmaker logic** for anonymous, fair delivery
+* **IPFS/Filecoin** used to store encrypted message blobs
+* **Time-based unlocks** enforced via block timestamps
+* No wallet identity tied to messages — full anonymity preserved
 
-## Running the project locally
+---
 
-If you want to test your project locally, you can use the following commands:
+## 📸 Screenshots
 
-```bash
-# Starts the replica, running in the background
-dfx start --background
+* 📝 Write a Letter Form
+* <img width="1828" height="912" alt="Screenshot 2025-07-19 220317" src="https://github.com/user-attachments/assets/48cd5a87-8b3a-437b-a1bf-fa7d9beb402e" />
 
-# Deploys your canisters to the replica and generates your candid interface
-dfx deploy
-```
+* 📬 Inbox with Reflection Prompt
+  <img width="1814" height="893" alt="Screenshot 2025-07-19 220343" src="https://github.com/user-attachments/assets/74d4df0f-5ff1-4c6b-bc11-64a0acac7a7e" />
 
-Once the job completes, your application will be available at `http://localhost:4943?canisterId={asset_canister_id}`.
 
-If you have made changes to your backend canister, you can generate a new candid interface with
+---
 
-```bash
-npm run generate
-```
+## ⚙️ Tech Stack
 
-at any time. This is recommended before starting the frontend development server, and will be run automatically any time you run `dfx deploy`.
+| Layer          | Technology                             |
+| -------------- | -------------------------------------- |
+| Frontend       | HTML, CSS, Vanilla JS                  |
+| Styling        | Custom CSS with gradients, pastel UI   |
+| Blockchain     | Rust Smart Contracts                   |
+| Storage        | IPFS/Filecoin (for encrypted messages) |
+| Randomness     | On-chain VRF or custom Rust RNG        |
 
-If you are making frontend changes, you can start a development server with
+---
 
-```bash
-npm start
-```
+## 🙋‍♀️ Why This Project?
 
-Which will start a server at `http://localhost:8080`, proxying API requests to the replica at port 4943.
+Modern digital communication is noisy, performative, and forgettable.  
+**ChainMail** creates a calm, reflective space where users can:
 
-### Note on frontend environment variables
+* Be vulnerable without identity
+* Communicate with strangers across time
+* Participate in a slower, more meaningful digital ritual
+* Embrace on-chain permanence for emotional authenticity
 
-If you are hosting frontend code somewhere without using DFX, you may need to make one of the following adjustments to ensure your project does not fetch the root key in production:
+It’s **not just a dApp** — it’s a decentralized message-in-a-bottle 🌊.
 
-- set`DFX_NETWORK` to `ic` if you are using Webpack
-- use your own preferred method to replace `process.env.DFX_NETWORK` in the autogenerated declarations
-  - Setting `canisters -> {asset_canister_id} -> declarations -> env_override to a string` in `dfx.json` will replace `process.env.DFX_NETWORK` with the string in the autogenerated declarations
-- Write your own `createActor` constructor
+---
+
+## ✨ Future Ideas
+
+* Email / push notifications when a letter unlocks
+* Dark mode toggle 🌙
+* Opt-in “Letter Garden” — public gallery of selected messages
+* DAO for moderation and future features (ChronoDAO style)
+* SBT or badge for message consistency and contribution
+
+---
+
+## 🎉 Made with love for strangers across time  
+> “Write what you needed to hear. One day, someone else will too.”  
