@@ -1,4 +1,5 @@
 # ✉️ ChainMail
+<img width="571" height="545" alt="ChainMail Logo" src="https://github.com/user-attachments/assets/f05e7037-57b6-4b9b-a02d-baad895b1e83" />
 
 A beautiful, intentional Web3 application to **write anonymous, time-locked letters to future strangers** — built with 💖 using **Rust smart contracts**, **IPFS**, and a calming, pastel-themed UI.  
 Whether you're writing to heal, share, or just be heard — ChainMail lets you connect across time.  
