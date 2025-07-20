@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChainMail - Letters to Future Strangers</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background-color: #FFF8F0;
+      color: #333333;
+    }
+    h1, h2, h3 {
+      font-family: 'Lora', serif;
+      color: #333333;
+    }
+    header {
+      background: linear-gradient(135deg, #FFE6E6 0%, #A8B5A2 100%);
+      padding: 2rem 0;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    header a {
+      color: #333333;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+    header a:hover {
+      color: #FFE6E6;
+    }
+    .write-section, .inbox-section, .about-section {
+      padding: 4rem 0;
+    }
+    .inbox-section {
+      background-color: #F9E8E8;
+    }
+    .form-container, .inbox-card {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      transition: transform 0.3s ease;
+    }
+    .form-container:hover, .inbox-card:hover {
+      transform: translateY(-5px);
+    }
+    .btn-custom {
+      background: linear-gradient(135deg, #A8B5A2 0%, #FFE6E6 100%);
+      border: none;
+      color: #333333;
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      border-radius: 10px;
+      transition: opacity 0.3s ease;
+    }
+    .btn-custom:hover {
+      opacity: 0.9;
+      color: #333333;
+    }
+    .form-control, .form-select {
+      border-radius: 10px;
+      border: 1px solid #A8B5A2;
+      padding: 0.75rem;
+    }
+    .form-control:focus, .form-select:focus {
+      border-color: #FFE6E6;
+      box-shadow: 0 0 0 0.2rem rgba(255, 230, 230, 0.25);
+    }
+    .error-message {
+      color: #D9534F;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      display: none; /* Hidden without JS; backend should handle validation */
+    }
+    .section-title {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .section-subtitle {
+      font-size: 1.1rem;
+      color: #666;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    footer {
+      background: linear-gradient(135deg, #A8B5A2 0%, #FFE6E6 100%);
+      color: #333333;
+      padding: 2rem 0;
+      font-size: 0.9rem;
+    }
+  </style>
+  <script type="module" crossorigin src="/assets/index-618f25da.js"></script>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <h1 class="h2 mb-0">ChainMail</h1>
+        <nav>
+          <a href="#write" class="me-3">Write</a>
+          <a href="#inbox" class="me-3">Inbox</a>
+          <a href="#about">About</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <section id="write" class="write-section">
+    <div class="container">
+      <h2 class="section-title">Write a Letter</h2>
+      <p class="section-subtitle">
+        Pour your heart into an anonymous letter, time-locked for a stranger to discover in the future.
+      </p>
+      <form action="/submit-letter" method="POST" class="col-md-6 mx-auto form-container">
+        <div class="mb-3">
+          <label for="letter" class="form-label">Your Letter</label>
+          <textarea
+            id="letter"
+            name="letter"
+            class="form-control"
+            rows="6"
+            placeholder="Share your thoughts, dreams, or secrets..."
+            required
+            minlength="10"
+          ></textarea>
+          <div class="error-message">
+            Letter must be at least 10 characters long.
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="lockTime" class="form-label">Time Lock</label>
+          <select name="lockTime" id="lockTime" class="form-select">
+            <option value="1month">1 Month</option>
+            <option value="1year">1 Year</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-custom w-100">Send Letter</button>
+      </form>
+    </div>
+  </section>
+
+  <section id="inbox" class="inbox-section">
+    <div class="container">
+      <h2 class="section-title">Your Inbox</h2>
+      <p class="section-subtitle">
+        Letters you've received. Respond or reflect to send another.
+      </p>
+      <div class="col-md-8 mx-auto">
+        <div class="inbox-card">
+          <div class="card-body">
+            <p class="card-text">A letter from a stranger...</p>
+            <p class="text-muted small">Unlocks on: 2025-08-17</p>
+            <a href="/respond" class="btn btn-custom mt-2">Respond</a>
+          </div>
+        </div>
+        <p class="text-center text-muted mt-4">No other letters yet. Write one to receive one!</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="about-section">
+    <div class="container">
+      <h2 class="section-title">About ChainMail</h2>
+      <p class="section-subtitle col-md-8 mx-auto">
+        ChainMail connects people through anonymous, time-locked letters. Write a letter, and it’s locked on-chain
+        for 1 month or 1 year. When it’s unlocked, a stranger reads it, and you receive one in return. Respond or
+        reflect to continue the chain.
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container text-center">
+      <p>© 2025 ChainMail. All rights reserved.</p>
+    </div>
+  </footer>
+
+  
+</body>
+</html>
+

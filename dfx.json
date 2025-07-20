@@ -1,0 +1,27 @@
+{
+  "canisters": {
+    "chainmail_backend": {
+      "candid": "src/chainmail_backend/chainmail_backend.did",
+      "package": "chainmail_backend",
+      "type": "rust"
+    },
+    "chainmail_frontend": {
+      "dependencies": [
+        "chainmail_backend"
+      ],
+      "source": [
+        "src/chainmail_frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "chainmail_frontend"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
