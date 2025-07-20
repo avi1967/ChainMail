@@ -31,7 +31,7 @@ You can’t send again until you reflect or reply. Slow. Serene. Human.
 ## 📸 Screenshots
 
 * 📝 Write a Letter Form
-* <img width="1828" height="912" alt="Screenshot 2025-07-19 220317" src="https://github.com/user-attachments/assets/48cd5a87-8b3a-437b-a1bf-fa7d9beb402e" />
+ <img width="1828" height="912" alt="Screenshot 2025-07-19 220317" src="https://github.com/user-attachments/assets/48cd5a87-8b3a-437b-a1bf-fa7d9beb402e" />
 
 * 📬 Inbox with Reflection Prompt
   <img width="1814" height="893" alt="Screenshot 2025-07-19 220343" src="https://github.com/user-attachments/assets/74d4df0f-5ff1-4c6b-bc11-64a0acac7a7e" />
