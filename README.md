@@ -34,11 +34,19 @@ You can’t send again until you reflect or reply. Slow. Serene. Human.
 
 ## 📸 Screenshots
 
-* 📝 Write a Letter Form
- <img width="1828" height="912" alt="Screenshot 2025-07-19 220317" src="https://github.com/user-attachments/assets/48cd5a87-8b3a-437b-a1bf-fa7d9beb402e" />
+* Home Page
+<img width="1914" height="932" alt="Screenshot 2025-08-20 205715" src="https://github.com/user-attachments/assets/3fc829c6-f492-41ff-84a0-7e3982ca7b53" />
+<img width="1919" height="925" alt="Screenshot 2025-08-20 205741" src="https://github.com/user-attachments/assets/6ffda51e-538f-4401-8c71-f72f25303610" />
 
-* 📬 Inbox with Reflection Prompt
-  <img width="1814" height="893" alt="Screenshot 2025-07-19 220343" src="https://github.com/user-attachments/assets/74d4df0f-5ff1-4c6b-bc11-64a0acac7a7e" />
+* Write a Letter
+<img width="1919" height="845" alt="Screenshot 2025-08-20 205836" src="https://github.com/user-attachments/assets/5d35aabb-d26c-4a9e-ac61-6564fa380dc4" />
+
+* Inbox
+<img width="1919" height="915" alt="Screenshot 2025-08-20 205807" src="https://github.com/user-attachments/assets/f9dd8ce8-6a4e-4f53-925d-40d4197b0c9c" />
+
+* Direct Messaging
+<img width="1834" height="924" alt="Screenshot 2025-08-20 205753" src="https://github.com/user-attachments/assets/d1365cb8-883c-47f2-ad89-5cfb5e51f360" />
+
 
 
 ---
