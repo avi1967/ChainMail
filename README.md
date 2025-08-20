@@ -40,6 +40,8 @@ You can’t send again until you reflect or reply. Slow. Serene. Human.
 
 * Write a Letter
 <img width="1919" height="845" alt="Screenshot 2025-08-20 205836" src="https://github.com/user-attachments/assets/5d35aabb-d26c-4a9e-ac61-6564fa380dc4" />
+<img width="1914" height="929" alt="image" src="https://github.com/user-attachments/assets/83d18837-6f87-442e-b445-b72927afb80a" />
+
 
 * Inbox
 <img width="1919" height="915" alt="Screenshot 2025-08-20 205807" src="https://github.com/user-attachments/assets/f9dd8ce8-6a4e-4f53-925d-40d4197b0c9c" />
