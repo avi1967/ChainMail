@@ -16,6 +16,10 @@ You can’t send again until you reflect or reply. Slow. Serene. Human.
 * Receive a **random letter** when yours unlocks
 * Must **reflect or reply** before sending again
 * View your personal **inbox timeline** of sent, received, and reflected letters
+* Geo Emotions Map: Visualize where letters are being sent from (anonymously), like a glowing map — makes the connection feel global and human
+* Theme-based Letters: Prompt-based sending — “Write about joy,” “Describe a memory,” “Say something to your future self”
+* Reply and Connect: After receiving a reply from a stranger, option to share your user ID for further DMs
+* Vibe-Based Matchmaking: Choose the mood you want to connect with (“Need inspiration,” “Want to vent,” “Looking for motivation”) and get matched with writers who selected the same mood tag
 * All actions are **fully on-chain** with no central authority
 
 ### 🔐 Blockchain Features
