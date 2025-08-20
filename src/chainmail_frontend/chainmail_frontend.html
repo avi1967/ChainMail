@@ -1,0 +1,679 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ChainMail — Demo (Letters Across Time)</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#FFF8F0;
+      --muted:#666;
+      --accent1:#FFE6E6;
+      --accent2:#A8B5A2;
+      --text:#333333;
+      --card:#ffffff;
+      --btn-grad: linear-gradient(135deg, var(--accent2) 0%, var(--accent1) 100%);
+      --pink:#ff69b4;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: 'Open Sans', sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+    }
+    header{
+      background: linear-gradient(135deg, #FFE6E6 0%, #A8B5A2 100%);
+      padding:1rem 1.25rem;
+      box-shadow:0 6px 18px rgba(0,0,0,0.06);
+      position:sticky; top:0; z-index:40;
+    }
+    .container{
+      max-width:1100px; margin:0 auto; display:flex; align-items:center; gap:1rem; justify-content:space-between;
+    }
+    .brand{display:flex; align-items:center; gap:0.75rem; font-weight:700;}
+    .logo{
+      width:44px;height:44px;border-radius:10px; display:inline-grid;place-items:center;
+      background: url('images/chainmail-logo.png') no-repeat center/cover;
+      box-shadow:0 4px 10px rgba(0,0,0,0.06);
+    }
+    .logo img{width:100%; height:100%; object-fit:cover; border-radius:10px;}
+    nav{display:flex; gap:1rem; align-items:center;}
+    nav a{color:var(--text); text-decoration:none; font-weight:600; padding:0.35rem 0.6rem; border-radius:8px;}
+    nav a.active, nav a:hover{background:rgba(255,255,255,0.3); color:var(--text)}
+    .actions{display:flex; gap:0.5rem; align-items:center;}
+    .btn{
+      border:none; padding:0.6rem 0.9rem; border-radius:10px; font-weight:600; cursor:pointer;
+      background:var(--btn-grad); color:var(--text);
+      box-shadow:0 6px 18px rgba(168,181,162,0.12);
+    }
+    .btn.ghost{background:transparent; border:1px solid rgba(51,51,51,0.06);}
+    main{flex:1; padding:1.5rem 1rem;}
+    .hero{max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1fr 380px; gap:1.5rem; align-items:start;}
+    @media (max-width:980px){ .hero{grid-template-columns:1fr; } nav{display:none} }
+    .card{background:var(--card); border-radius:14px; padding:1rem; box-shadow:0 10px 30px rgba(0,0,0,0.06)}
+    #page-home.card{
+      background: url('images/background-image.jpg') no-repeat center/cover;
+      color: var(--text);
+      position: relative;
+    }
+    #page-home.card > * {
+      position: relative;
+      z-index: 1;
+    }
+    #page-home.card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 14px;
+      z-index: 0;
+    }
+    #map{height:520px; border-radius:12px; overflow:hidden; border:6px solid rgba(255,255,255,0.6);}
+    .globe-image{width:100%; height:100%; object-fit:cover;}
+    .form-row{display:flex; gap:0.6rem; align-items:center}
+    textarea{width:100%; min-height:140px; border-radius:12px; padding:0.85rem; border:1px solid var(--accent2); resize:vertical}
+    .small{font-size:0.88rem;color:var(--muted)}
+    .quote{background:linear-gradient(135deg,#fff,#FFF8F8); padding:0.8rem; border-radius:10px; border-left:4px solid var(--accent2); font-style:italic;}
+    .inbox-list{display:flex; flex-direction:column; gap:0.9rem}
+    .letter{padding:0.9rem; border-radius:10px; background:linear-gradient(180deg,#fff,#fbfbfb); border-left:4px solid #f0e6e6}
+    .meta{font-size:0.82rem; color:var(--muted)}
+    .modal-backdrop{position:fixed; inset:0; background:rgba(0,0,0,0.35); display:grid; place-items:center; z-index:60;}
+    .modal{width:100%;max-width:680px;background:var(--card); border-radius:14px; padding:1rem 1.2rem; box-shadow:0 20px 40px rgba(0,0,0,0.12);}
+    .dm-panel{position:fixed; right:18px; bottom:18px; width:360px; max-height:70vh; overflow:hidden; border-radius:12px; z-index:70}
+    .dm-panel .panel{display:flex; flex-direction:column; height:100%; background:var(--card); box-shadow:0 20px 45px rgba(0,0,0,0.12);}
+    .dm-list{flex:1; overflow:auto; padding:0.6rem}
+    .dm-msg{padding:0.45rem 0.6rem; margin:0.25rem 0; border-radius:8px; background:#f7f7f7}
+    .pulse { animation: pulse 2s infinite; opacity:0.9; }
+    @keyframes pulse { 0% { transform: scale(0.6); opacity: 0.9; } 50% { transform: scale(1.25); opacity: 0.4; } 100% { transform: scale(0.6); opacity: 0.0; } }
+    footer{padding:1.2rem; text-align:center; font-size:0.9rem; color:var(--muted)}
+    .reset-btn { margin-left:8px; }
+    .letter-content { max-height:100px; overflow:hidden; }
+    .letter-full { max-height:none; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="brand">
+        <div class="logo">
+          <img src="images/chainmail-logo.png" alt="ChainMail Logo" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
+        </div>
+        <div>
+          <div style="font-family:'Lora',serif;font-size:1.05rem">ChainMail</div>
+          <div style="font-size:0.78rem;color:var(--muted)">Letters Across Time</div>
+        </div>
+      </div>
+
+      <nav id="main-nav" aria-label="Main navigation">
+        <a href="#" data-page="home" class="active">Globe</a>
+        <a href="#" data-page="inbox">Inbox</a>
+        <a href="#" data-page="write">Write</a>
+        <a href="#" data-page="dms">DMs</a>
+      </nav>
+
+      <div class="actions" id="actions">
+        <button class="btn" id="loginBtn">Login / Sign up</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="hero">
+      <div>
+        <div id="page-home" class="card" style="display:block;">
+          <h2 style="margin:0 0 0.6rem 0; font-family:'Lora',serif;">Geo Emotions Globe</h2>
+          <p class="small">View the globe — glowing pink dots show where letters are sent from.</p>
+          <div id="map" style="margin-top:0.8rem;">
+            <img src="images/globe-image.png" alt="Globe Image" class="globe-image">
+          </div>
+          <div style="display:flex; gap:0.6rem; margin-top:0.6rem; align-items:center;">
+            <div class="small">Legend:</div>
+            <div style="display:flex;gap:0.4rem;align-items:center;">
+              <div style="width:12px;height:12px;border-radius:50%;background:var(--pink)"></div><div class="small">Letters (pink dots)</div>
+            </div>
+            <button class="btn ghost reset-btn" id="resetDemoBtn" title="Clear demo storage and reload">Reset Demo</button>
+          </div>
+        </div>
+
+        <div id="page-write" class="card" style="display:none;">
+          <h2 style="font-family:'Lora',serif;margin-top:0">Write a Letter</h2>
+          <p class="small">Write anonymously — choose a mood and time-lock. When it unlocks, a stranger reads it and you receive one in return.</p>
+          <div style="margin-top:0.6rem;">
+            <label class="small">Mood</label>
+            <div style="display:flex; gap:0.5rem; margin-bottom:0.6rem">
+              <select id="moodSelect" class="form-select" style="border-radius:10px;padding:0.6rem;border:1px solid var(--accent2);">
+                <option value="NeedInspiration">Need inspiration</option>
+                <option value="WantToVent">Want to vent</option>
+                <option value="LookingForMotivation">Looking for motivation</option>
+              </select>
+              <select id="countrySelect" class="form-select" style="width:160px;border-radius:10px;padding:0.6rem;border:1px solid var(--accent2);">
+                <!-- options added by JS -->
+              </select>
+              <input id="cityInput" placeholder="City (optional)" style="padding:0.6rem;border-radius:10px;border:1px solid var(--accent2);flex:1" />
+            </div>
+            <textarea id="letterText" placeholder="Type your letter to a future stranger..." minlength="10"></textarea>
+            <div style="display:flex;gap:0.6rem;margin-top:0.6rem;align-items:center;">
+              <select id="timelockSelect" class="form-select" style="border-radius:10px;padding:0.6rem;border:1px solid var(--accent2);width:220px">
+                <option value="60000">Deliver in 1 minute (demo)</option>
+                <option value="2592000000">Deliver in 1 month</option>
+                <option value="31536000000">Deliver in 1 year</option>
+              </select>
+              <button id="sendBtn" class="btn" style="flex:1">Send Letter</button>
+            </div>
+            <div id="sendResult" style="margin-top:0.8rem;display:none">
+              <div class="quote" id="quoteBox"></div>
+              <div style="margin-top:0.6rem;"><span class="small">Delivery countdown:</span> <strong id="countdown">--:--:--</strong></div>
+            </div>
+          </div>
+        </div>
+        <div id="page-inbox" class="card" style="display:none;">
+          <h2 style="font-family:'Lora',serif;margin-top:0">Inbox</h2>
+          <p class="small">Letters you've received. Click to read and reply.</p>
+          <div style="margin-top:1rem;">
+            <div id="inboxList" class="inbox-list"></div>
+          </div>
+        </div>
+        <div id="page-dms" class="card" style="display:none;">
+          <h2 style="font-family:'Lora',serif;margin-top:0">Direct Messages</h2>
+          <p class="small">Your conversations with other users.</p>
+          <div style="margin-top:1rem;">
+            <div id="dmList"></div>
+            <div style="padding:0.6rem;border-top:1px solid #eee">
+              <div style="display:flex;gap:0.5rem">
+                <input id="dmInput" placeholder="Type a message..." style="flex:1;padding:0.55rem;border-radius:8px;border:1px solid #ddd" />
+                <button id="dmSend" class="btn">Send</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <aside>
+        <div class="card" style="margin-bottom:1rem;">
+          <h3 style="margin:0 0 0.4rem 0;font-family:'Lora',serif;">Quick Actions</h3>
+          <div style="display:flex;flex-direction:column;gap:0.5rem">
+            <button class="btn ghost" id="goWrite">Write</button>
+            <button class="btn ghost" id="goInbox">Inbox</button>
+            <button class="btn ghost" id="goHome">Globe</button>
+            <button class="btn ghost" id="goDms">DMs</button>
+          </div>
+        </div>
+        <div class="card" id="accountCard">
+          <div id="notLogged" style="display:block">
+            <h4 style="margin:0 0 0.5rem 0">Welcome</h4>
+            <p class="small">Log in to write, reply, and DM strangers.</p>
+            <button class="btn" id="loginPanelBtn">Login / Signup</button>
+          </div>
+          <div id="logged" style="display:none">
+            <h4 style="margin:0 0 0.5rem 0" id="whoami">You are ...</h4>
+            <div style="display:flex;gap:0.4rem;margin-top:0.5rem">
+              <button class="btn ghost" id="logoutBtn">Logout</button>
+            </div>
+          </div>
+        </div>
+        <div class="card" style="margin-top:1rem;">
+          <h4 style="margin:0 0 0.6rem 0;font-family:'Lora',serif;">Stats</h4>
+          <div class="small" id="statsText">Letters sent: 0 • Unlocked: 0 • DM threads: 0</div>
+        </div>
+      </aside>
+    </div>
+  </main>
+  <footer>
+    © 2025 ChainMail — built with intention. Demo frontend (local-only).
+  </footer>
+  <div id="modalRoot" style="display:none"></div>
+  <script type="module">
+  (function(){
+    const uid = () => 'u'+Math.random().toString(36).slice(2,9);
+    const now = () => Date.now();
+    const readLS = (k, fallback) => JSON.parse(localStorage.getItem(k) || JSON.stringify(fallback));
+    const writeLS = (k, v) => localStorage.setItem(k, JSON.stringify(v));
+    const ensure = (k,v) => { if(localStorage.getItem(k)===null) writeLS(k,v); };
+
+    const GEO_DATA = [
+      {code:'IN', name:'India', lat:22.0, lon:78.0, cities: [
+        {name:'Mumbai', lat:19.0760, lon:72.8777},
+        {name:'Delhi', lat:28.7041, lon:77.1025}
+      ]},
+      {code:'US', name:'United States', lat:39.8, lon:-98.6, cities: [
+        {name:'New York', lat:40.7128, lon:-74.0060},
+        {name:'Austin', lat:30.2672, lon:-97.7431}
+      ]},
+      {code:'GB', name:'United Kingdom', lat:54.0, lon:-2.0, cities: [
+        {name:'London', lat:51.5074, lon:-0.1278}
+      ]},
+      {code:'DE', name:'Germany', lat:51.2, lon:10.4, cities: []},
+      {code:'FR', name:'France', lat:46.2, lon:2.2, cities: []},
+      {code:'SG', name:'Singapore', lat:1.35, lon:103.8, cities: []},
+      {code:'BR', name:'Brazil', lat:-14.2, lon:-51.9, cities: []},
+      {code:'ZA', name:'South Africa', lat:-30.6, lon:22.9, cities: []},
+      {code:'CA', name:'Canada', lat:56.1, lon:-106.3, cities: []},
+      {code:'AU', name:'Australia', lat:-25.0, lon:133.0, cities: []}
+    ];
+
+    const QUOTES = [
+      "The smallest act of kindness is worth more than the grandest intention. — Oscar Wilde",
+      "Your words have power. Send them into the world with courage.",
+      "Be brave enough to start a conversation that matters.",
+      "One message, one stranger, one small bridge across time.",
+      "Vulnerability is the birthplace of connection."
+    ];
+
+    let currentUser = null;
+    const Dom = {};
+    function $(sel){ return document.querySelector(sel); }
+    function $all(sel){ return Array.from(document.querySelectorAll(sel)); }
+
+    Dom.loginBtn = $('#loginBtn');
+    Dom.actions = $('#actions');
+    Dom.nav = $('#main-nav');
+    Dom.pageHome = $('#page-home');
+    Dom.pageWrite = $('#page-write');
+    Dom.pageInbox = $('#page-inbox');
+    Dom.pageDms = $('#page-dms');
+    Dom.goWrite = $('#goWrite');
+    Dom.goInbox = $('#goInbox');
+    Dom.goHome = $('#goHome');
+    Dom.goDms = $('#goDms');
+    Dom.loginPanelBtn = $('#loginPanelBtn');
+    Dom.notLogged = $('#notLogged');
+    Dom.logged = $('#logged');
+    Dom.whoami = $('#whoami');
+    Dom.logoutBtn = $('#logoutBtn');
+    Dom.statsText = $('#statsText');
+    Dom.sendBtn = $('#sendBtn');
+    Dom.moodSelect = $('#moodSelect');
+    Dom.countrySelect = $('#countrySelect');
+    Dom.cityInput = $('#cityInput');
+    Dom.letterText = $('#letterText');
+    Dom.timelockSelect = $('#timelockSelect');
+    Dom.sendResult = $('#sendResult');
+    Dom.quoteBox = $('#quoteBox');
+    Dom.countdown = $('#countdown');
+    Dom.inboxList = $('#inboxList');
+    Dom.modalRoot = $('#modalRoot');
+    Dom.dmList = $('#dmList');
+    Dom.dmInput = $('#dmInput');
+    Dom.dmSend = $('#dmSend');
+
+    function showPage(page){
+      $all('[data-page]').forEach(a=>a.classList.remove('active'));
+      $all('nav a').forEach(a=>a.classList.remove('active'));
+      $all('nav a[data-page="'+page+'"]').forEach(a=>a.classList.add('active'));
+      Dom.pageHome.style.display = page==='home' ? 'block' : 'none';
+      Dom.pageWrite.style.display = page==='write' ? 'block' : 'none';
+      Dom.pageInbox.style.display = page==='inbox' ? 'block' : 'none';
+      Dom.pageDms.style.display = page==='dms' ? 'block' : 'none';
+    }
+    $all('nav a').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        e.preventDefault();
+        const p = a.getAttribute('data-page');
+        showPage(p);
+      });
+    });
+
+    Dom.goWrite.addEventListener('click', ()=>showPage('write'));
+    Dom.goInbox.addEventListener('click', ()=>showPage('inbox'));
+    Dom.goHome.addEventListener('click', ()=>showPage('home'));
+    Dom.goDms.addEventListener('click', ()=>showPage('dms'));
+
+    function populateCountries(){
+      const sel = Dom.countrySelect;
+      sel.innerHTML = '';
+      GEO_DATA.forEach(c=>{
+        const opt = document.createElement('option');
+        opt.value = c.code;
+        opt.textContent = `${c.name} (${c.code})`;
+        sel.appendChild(opt);
+      });
+      const code = (navigator.language || 'en').slice(-2).toUpperCase();
+      if(GEO_DATA.find(x=>x.code===code)) sel.value = code;
+    }
+    populateCountries();
+
+    function seedDemoData(){
+      const users = {
+        demo_sender: { username:'demo_sender', createdAt: now() - 1000*60*60 },
+        demo_reader: { username:'demo_reader', createdAt: now() - 1000*60*30 },
+        demo_friend: { username:'demo_friend', createdAt: now() - 1000*60*45 }
+      };
+      writeLS('users', users);
+
+      const letters = [
+        {
+          id: uid(),
+          content: "I miss watching sunsets with no deadlines. What's a small moment that made you smile this week?",
+          mood: { NeedInspiration: null },
+          geo: { country: 'IN', city: 'Mumbai', lat: 19.0760, lon: 72.8777 },
+          author: 'demo_sender',
+          createdAt: now() - 1000*60*60*24,
+          unlockAt: now() - 1000*60*10,
+          deliveredTo: 'demo_reader',
+          replied: false
+        },
+        {
+          id: uid(),
+          content: "Today I felt overwhelmed, writing helps. Sending this out as a tiny message in a bottle.",
+          mood: { WantToVent: null },
+          geo: { country: 'US', city: 'Austin', lat: 30.2672, lon: -97.7431 },
+          author: 'demo_friend',
+          createdAt: now() - 1000*60*60*5,
+          unlockAt: now() - 1000*60*2,
+          deliveredTo: 'demo_reader',
+          replied: false
+        }
+      ];
+      writeLS('letters', letters);
+
+      const dms = [
+        {
+          threadId: uid(),
+          a: 'demo_sender',
+          b: 'demo_reader',
+          messages: [
+            { from: 'demo_sender', to: 'demo_reader', text: 'Hey, loved your note about sunsets!', createdAt: now() - 1000*60*30 }
+          ]
+        },
+        {
+          threadId: uid(),
+          a: 'demo_friend',
+          b: 'demo_reader',
+          messages: [
+            { from: 'demo_friend', to: 'demo_reader', text: 'Your letter really resonated with me. Got any tips for dealing with stress?', createdAt: now() - 1000*60*15 }
+          ]
+        }
+      ];
+      writeLS('dms', dms);
+      writeLS('replies', []);
+    }
+
+    function autoLoginDemo(){
+      currentUser = { username: 'demo_reader' };
+      renderAuth();
+      toast(`Auto-logged in as @${currentUser.username} (demo mode)`, 3500);
+    }
+
+    function openLoginModal(){
+      showModal(`<h3>Login / Sign up</h3>
+        <div style="margin-top:0.6rem">
+          <label class="small">Choose a username</label>
+          <input id="tmpUser" placeholder="e.g., willow" style="width:100%;padding:0.6rem;border-radius:8px;border:1px solid #ddd" />
+          <div style="display:flex;gap:0.5rem;margin-top:0.6rem">
+            <button id="doLogin" class="btn">Continue</button>
+            <button id="cancelLogin" class="btn ghost">Cancel</button>
+          </div>
+        </div>`, true);
+
+      $('#doLogin').addEventListener('click', ()=>{
+        const name = $('#tmpUser').value.trim();
+        if(!name){ alert('Please enter a username'); return; }
+        login(name);
+        closeModal();
+      });
+      $('#cancelLogin').addEventListener('click', closeModal);
+    }
+
+    function login(username){
+      const users = readLS('users', {});
+      users[username] = { username, createdAt: now() };
+      writeLS('users', users);
+      currentUser = { username };
+      renderAuth();
+      toast(`Welcome, ${username}!`);
+    }
+
+    function logout(){
+      currentUser = null;
+      renderAuth();
+      toast('Logged out');
+    }
+
+    function renderAuth(){
+      if(currentUser){
+        Dom.notLogged.style.display='none';
+        Dom.logged.style.display='block';
+        Dom.whoami.textContent = `@${currentUser.username}`;
+        $('#loginBtn').style.display = 'none';
+        $('#actions').innerHTML = `<button class="btn" id="openDMTop">DM</button>`;
+        $('#openDMTop').addEventListener('click', ()=>showPage('dms'));
+      } else {
+        Dom.notLogged.style.display='block';
+        Dom.logged.style.display='none';
+        $('#loginBtn').style.display = 'inline-block';
+        $('#actions').innerHTML = `<button class="btn" id="loginBtnTop">Login / Sign up</button>`;
+        $('#loginBtnTop').addEventListener('click', openLoginModal);
+      }
+      updateStats();
+    }
+
+    Dom.loginBtn.addEventListener('click', openLoginModal);
+    Dom.loginPanelBtn.addEventListener('click', openLoginModal);
+    Dom.logoutBtn.addEventListener('click', logout);
+
+    function showModal(html, large=false){
+      Dom.modalRoot.style.display = 'block';
+      Dom.modalRoot.innerHTML = `<div class="modal-backdrop" id="modalBackdrop">
+        <div class="modal" role="dialog">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div></div>
+            <button id="closeModal" class="btn ghost">Close</button>
+          </div>
+          <div style="margin-top:0.8rem">${html}</div>
+        </div>
+      </div>`;
+      $('#closeModal').addEventListener('click', closeModal);
+      $('#modalBackdrop').addEventListener('click', (e)=>{ if(e.target.id==='modalBackdrop') closeModal(); });
+    }
+    function closeModal(){ Dom.modalRoot.style.display='none'; Dom.modalRoot.innerHTML=''; }
+
+    function toast(msg, t=3000){
+      const id = 'toast-' + Math.random().toString(36).slice(2,7);
+      const el = document.createElement('div');
+      el.id = id;
+      el.style = "position:fixed;right:20px;bottom:20px;background:#111;color:#fff;padding:0.7rem 1rem;border-radius:8px;z-index:90;opacity:0.95";
+      el.textContent = msg;
+      document.body.appendChild(el);
+      setTimeout(()=>{ el.style.transition='all 0.3s'; el.style.transform='translateY(20px)'; el.style.opacity='0'; }, t-250);
+      setTimeout(()=> el.remove(), t);
+    }
+
+    function updateInbox(){
+      const letters = readLS('letters', []);
+      const inbox = letters.filter(l => l.unlockAt <= now() && l.deliveredTo === (currentUser ? currentUser.username : null));
+      Dom.inboxList.innerHTML = '';
+      if(!currentUser){
+        Dom.inboxList.innerHTML = '<div class="small">Login to access your inbox and reply.</div>';
+        return;
+      }
+      if(inbox.length===0){
+        Dom.inboxList.innerHTML = '<div class="small">No unlocked letters available yet — write one to get started.</div>';
+        return;
+      }
+      inbox.slice().reverse().forEach(l=>{
+        const div = document.createElement('div');
+        div.className = 'letter';
+        const mood = Object.keys(l.mood)[0];
+        div.innerHTML = `
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="font-weight:700">${mood.replace(/([A-Z])/g,' $1').trim()}</div>
+            <div class="meta">from • ${l.geo.country}${l.geo.city? ' • '+l.geo.city : ''}</div>
+          </div>
+          <div class="letter-content" data-id="${l.id}">${escapeHtml(l.content)}</div>
+          <div style="display:flex;gap:0.5rem;margin-top:0.6rem;align-items:center">
+            <button class="btn ghost readBtn" data-id="${l.id}">Read</button>
+            <button class="btn ghost replyBtn" data-id="${l.id}" ${l.replied?'disabled':''}>Reply</button>
+          </div>
+        `;
+        Dom.inboxList.appendChild(div);
+      });
+
+      $all('.readBtn').forEach(b=>b.addEventListener('click', (e)=>{
+        const id = b.getAttribute('data-id');
+        const letter = Dom.inboxList.querySelector(`.letter-content[data-id="${id}"]`);
+        letter.classList.toggle('letter-full');
+        b.textContent = letter.classList.contains('letter-full') ? 'Collapse' : 'Read';
+      }));
+
+      $all('.replyBtn').forEach(b=>b.addEventListener('click', (e)=>{
+        const id = b.getAttribute('data-id');
+        openReplyModal(id);
+      }));
+    }
+
+    function escapeHtml(s){ return s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
+
+    function openReplyModal(letterId){
+      const letters = readLS('letters', []);
+      const letter = letters.find(x=>x.id===letterId);
+      if(!letter) return alert('Letter not found');
+      showModal(`
+        <h3>Reply to letter</h3>
+        <div style="margin-top:0.6rem">
+          <div style="margin-bottom:0.6rem"><b>Original:</b> <div style="margin-top:6px;padding:0.6rem;border-radius:8px;background:#fbfbfb">${escapeHtml(letter.content)}</div></div>
+          <label class="small">Choose a reply mood</label>
+          <select id="replyMood" style="width:100%;padding:0.6rem;border-radius:8px;border:1px solid #ddd;">
+            <option value="happy">Happy</option>
+            <option value="sad">Sad</option>
+            <option value="thoughtful">Thoughtful</option>
+            <option value="encouraging">Encouraging</option>
+          </select>
+          <textarea id="replyText" placeholder="Write your reply..." style="width:100%;min-height:100px;margin-top:0.6rem;padding:0.6rem;border-radius:8px;border:1px solid #ddd"></textarea>
+          <div style="display:flex;gap:0.5rem;margin-top:0.6rem">
+            <button id="sendReply" class="btn">Send Reply</button>
+            <button id="cancelReply" class="btn ghost">Cancel</button>
+          </div>
+        </div>
+      `, true);
+
+      $('#sendReply').addEventListener('click', ()=>{
+        const text = $('#replyText').value.trim();
+        const mood = $('#replyMood').value;
+        if(!text){ alert('Please write a reply'); return; }
+        const letters = readLS('letters', []);
+        const idx = letters.findIndex(x=>x.id===letterId);
+        if(idx>=0){
+          letters[idx].replied = true;
+          writeLS('letters', letters);
+        }
+        const dms = readLS('dms', []);
+        let thread = dms.find(t=> (t.a===letter.author && t.b===currentUser.username) || (t.a===currentUser.username && t.b===letter.author));
+        if(!thread){
+          thread = { threadId: uid(), a: currentUser.username, b: letter.author, messages: [] };
+          dms.push(thread);
+        }
+        thread.messages.push({
+          from: currentUser.username,
+          to: letter.author,
+          text,
+          createdAt: now()
+        });
+        writeLS('dms', dms);
+        closeModal();
+        toast('Reply sent as DM.');
+        updateInbox();
+        updateStats();
+      });
+      $('#cancelReply').addEventListener('click', closeModal);
+    }
+
+    function renderDMs(){
+      const dms = readLS('dms', []);
+      const threads = dms.filter(t=>t.a===currentUser?.username || t.b===currentUser?.username);
+      Dom.dmList.innerHTML = '';
+      if(!currentUser){
+        Dom.dmList.innerHTML = '<div class="small">Login to view messages.</div>';
+        return;
+      }
+      if(threads.length===0){
+        Dom.dmList.innerHTML = '<div class="small">No active DM threads. Reply to a letter to start one.</div>';
+        return;
+      }
+      threads.forEach(thread => {
+        const h = document.createElement('div');
+        h.style = 'font-weight:700;margin-bottom:8px';
+        h.textContent = `Thread with @${thread.a===currentUser.username?thread.b:thread.a}`;
+        Dom.dmList.appendChild(h);
+        thread.messages.forEach(m=>{
+          const mdiv = document.createElement('div');
+          mdiv.className = 'dm-msg';
+          mdiv.style.background = m.from===currentUser.username? '#E7F9F0':'#fff';
+          mdiv.style.textAlign = m.from===currentUser.username? 'right':'left';
+          mdiv.innerHTML = `<div style="font-size:0.8rem;color:#666">${m.from}</div><div>${escapeHtml(m.text)}</div>`;
+          Dom.dmList.appendChild(mdiv);
+        });
+      });
+      Dom.dmList.scrollTop = Dom.dmList.scrollHeight;
+
+      Dom.dmSend.onclick = async ()=>{
+        const txt = Dom.dmInput.value.trim();
+        if(!txt) return;
+        const dms = readLS('dms', []);
+        const thread = dms.find(t=>t.a===currentUser?.username || t.b===currentUser?.username);
+        if(!thread) return alert('No active thread');
+        const tIdx = dms.findIndex(x=>x.threadId===thread.threadId);
+        if(tIdx<0) return alert('Thread ended');
+        dms[tIdx].messages.push({
+          from: currentUser.username,
+          to: thread.a===currentUser.username?thread.b:thread.a,
+          text: txt,
+          createdAt: now()
+        });
+        writeLS('dms', dms);
+        Dom.dmInput.value = '';
+        renderDMs();
+        updateStats();
+      };
+    }
+
+    function updateStats(){
+      const letters = readLS('letters', []);
+      const sent = currentUser ? letters.filter(l=>l.author=== currentUser.username).length : 0;
+      const unlocked = letters.filter(l=>l.unlockAt <= now() && l.deliveredTo === currentUser?.username).length;
+      const dms = readLS('dms', []);
+      const active = currentUser ? dms.filter(t=> t.a=== currentUser.username || t.b=== currentUser.username).length : 0;
+      Dom.statsText.textContent = `Letters sent: ${sent} • Unlocked: ${unlocked} • DM threads: ${active}`;
+    }
+
+    Dom.resetDemoBtn.addEventListener('click', ()=>{
+      if(!confirm('Reset demo data (clears any local changes) and reload?')) return;
+      localStorage.clear();
+      location.reload();
+    });
+
+    function init(){
+      seedDemoData();
+      autoLoginDemo();
+      updateInbox();
+      renderDMs();
+      updateStats();
+    }
+    init();
+
+    setInterval(()=>{
+      updateInbox();
+      renderDMs();
+      updateStats();
+    }, 2500);
+
+    if(!String.prototype.replaceAll) {
+      String.prototype.replaceAll = function(search, replacement) {
+        return this.split(search).join(replacement);
+      };
+    }
+
+    window.__chainmail = { readLS, writeLS, uid };
+  })();
+  </script>
+</body>
+</html>
