@@ -78,7 +78,12 @@ Modern digital communication is noisy, performative, and forgettable.
 It’s **not just a dApp** — it’s a decentralized message-in-a-bottle 🌊.
 
 ---
-
+## Demo Video
+https://drive.google.com/file/d/18lS50VOEEqIoieKAROaDhP0dO3gU3URU/view?usp=drive_link
+---
+## Pitch Video
+https://drive.google.com/file/d/1hza4ITiwTaMu29SYm-M_fmw-Bpx7WODO/view?usp=drive_link
+---
 ## ✨ Future Ideas
 
 * Email / push notifications when a letter unlocks
